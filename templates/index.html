@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Extends a base template for consistent layout across pages -->
+    {% extends "base.html" %}
+
+    <!-- Sets the title for the page -->
+    {% block title %}Quantum Flux Trading - Home{% endblock %}
+
+    <body>
+        <!-- Main content block -->
+        {% block content %}
+
+        <!-- About Us Section with a heading and descriptive paragraph -->
+        <section class="about-us">
+            <h2>About Us</h2>
+            <p>Insert your about us content here.</p> <!-- Corrected typo in 'Insert' -->
+        </section>
+
+        <!-- Section for API parameter input form -->
+        <section class="input-form">
+            <h2>API Parameters</h2>
+            <form method="POST" action="/">
+                <!-- Field for symbol input -->
+                <label for="symbol">Symbol:</label>
+                <input type="text" id="symbol" name="symbol" required>
+                <br>
+                <!-- Dropdown for selecting output size -->
+                <label for="outputsize">Output Size:</label>
+                <select id="outputsize" name="outputsize">
+                    <option value="compact">Compact</option>
+                    <option value="full">Full</option>
+                </select>
+                <br>
+                <!-- Radio buttons for selecting time interval -->
+                <label>Time Interval:</label>
+                <input type="radio" id="intraday" name="function_interval" value="intraday" checked>
+                <label for="intraday">Intraday</label>
+                <input type="radio" id="daily" name="function_interval" value="daily">
+                <label for="daily">Daily</label>
+                <br>
+                <br>
+                <!-- Dropdown for selecting intraday interval -->
+                <label for="intraday_interval">Intraday Interval:</label>
+                <select id="intraday_interval" name="intraday_interval">
+                    <option value="1min">1min</option>
+                    <option value="5min">5min</option>
+                    <option value="15min">15min</option>
+                    <option value="30min">30min</option>
+                    <option value="60min">60min</option>
+                </select>
+                <!-- Submit button for the form -->
+                <button type="submit">Submit</button> <!-- Corrected type attribute from 'submit_a' to 'submit' -->
+            </form>
+        </section>
+
+        <!-- Section for displaying real-time data using a candlestick chart -->
+        <section class="real-time-data">
+            <h2>Candlestick Chart</h2>
+            <div id="candlestick-chart">
+                {{ candlestick_html | safe }} <!-- Safe filter to render HTML from a variable -->
+                <!-- Candlestick chart will be displayed here -->
+            </div>
+        </section>
+        {% endblock %}
+
+    </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character set and responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dynamic title block -->
+    <title>{% block title %}Quantum Flux Trading{% endblock %}</title>
+
+    <!-- Internal CSS for styling -->
+    <style>
+        /* Custom color variables for easy theme management */
+        :root {
+            --navy-blue-light: #5472d3;
+            --navy-blue: #0D47A1;
+            --navy-blue-dark: #002171;
+            --gold: #FFD700;
+        }
+
+        /* Body styling with custom font and background */
+        body {
+            background-color: var(--navy-blue-light);
+            color: var(--navy-blue-dark);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styling with gradient background and border */
+        header {
+            background: linear-gradient(90deg, var(--navy-blue), black);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* Header title styling */
+        h1 {
+            font-size: 36px;
+            color: white;
+        }
+
+        /* Navigation bar styling */
+        nav {
+            background-color: var(--navy-blue);
+            overflow: hidden;
+        }
+
+        /* Navigation link styling */
+        nav a {
+            float: left;
+            display: block;
+            color: var(--gold);
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* Navigation link hover effect */
+        nav a:hover {
+            background-color: var(--navy-blue-dark);
+            color: var(--gold);
+        }
+
+        /* About us section styling */
+        .about-us {
+            background: linear-gradient(90deg, black, var(--navy-blue));
+            color: var(--navy-blue-light);
+            padding: 20px;
+            border-top: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* About us title styling */
+        .about-us h2 {
+            color: white;
+        }
+
+        /* Real-time data section styling */
+        .real-time-data {
+            background-color: var(--navy-blue-dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Table header and cell styling */
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Table header background color */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Table row hover effect */
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Centered container for aligning content */
+        .centered-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
+        }
+
+        /* Account information box styling */
+        .account-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Gradient box for additional styling */
+        .gradient-box {
+            background: linear-gradient(90deg, var(--navy-blue), black);
+            color: var(--navy-blue-light);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        /* Footer styling with gradient background */
+        footer {
+            background: linear-gradient(90deg, var(--navy-blue), black);
+            color: var(--navy-blue-light);
+            padding: 10px;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+    </style>
+
+    <!-- External script for additional functionality -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <!-- Website header with dynamic content block -->
+    <header>
+        <h1>{% block header %}Quantum Flux Trading{% endblock %}</h1>
+    </header>
+
+    <!-- Navigation bar, content included dynamically -->
+    <nav>
+        {% include "navbar.html" %}
+    </nav>
+
+    <!-- Main content area for dynamic content insertion -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer with copyright information -->
+    <footer>
+        &copy; 2023 Quantum Flux Trading
+    </footer>
+</body>
+</html>
