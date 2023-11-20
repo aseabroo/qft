@@ -6,7 +6,7 @@ from data_fetch import get_json_data
 from plot_stock_data import create_interactive_candlestick_with_timezone
 from url_builder import build_daily_url
 import alpaca_trading
-
+from cancel_order import delete_most_recent_order
 app = Flask(__name__)
 
 # API key for stock data
@@ -75,6 +75,13 @@ def trading():
     portfolio_data = alpaca_trading.get_account_portfolio_history()
 
     return render_template('trading.html', account_data=account_data, portfolio_data=portfolio_data)
+
+@app.route('/cancel_order')
+def cancel_order():
+    delete_most_recent_order()  # Use your actual API keys
+    flash("Order cancelled Successfully")
+    # Redirect back to the trading page or handle the response appropriately
+    return redirect(url_for('trading'))
 
 # Main entry point for the application
 if __name__ == '__main__':

@@ -133,6 +133,52 @@
             padding: 20px;
             border-radius: 10px;
         }
+        #progressBarContainer {
+            width: 100%;
+            background-color: #ddd;
+        }
+
+        #progressBar {
+            height: 20px;
+            width: 0%;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step-active{
+            display: block;
+        }
+
+        .center-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: top-center;
+        align-items: center;
+        padding-top: 20px ;
+        }
+
+        /* CSS for the "View Details" button */
+        .view-details-button {
+            display: inline-block;
+            background-color: #007bff; /* Blue color, you can change this */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            
+        }
+
+    /* CSS for the "details" section (portfolio data) */
+    .portfolio {
+        display: none;
+    }
 
         /* Footer styling with gradient background */
         footer {

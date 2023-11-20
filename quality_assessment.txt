@@ -1,0 +1,31 @@
+Quality Assessment of Quantum Flux Trading
+Augustus Seabrooke
+
+I. Introduction
+The Quantum Flux Trading app serves as a valuable tool for users engaged in algorithmic trading. It harnesses the power of two prominent APIs, Alpha Vantage and Alpaca, to provide users with enhanced capabilities, improved visibility, and an efficient testing environment. This app reimagines the functionalities of these APIs, offering a comprehensive platform for traders to optimize their strategies, gain deeper insights, and conduct rigorous testing to refine their trading algorithms.
+
+II. Quality Attributes Assessment
+a. Security
+i. The app places a strong emphasis on security by addressing aspects such as confidentiality, integrity, and availability. This suggests a robust approach to protecting sensitive data and ensuring the system’s reliability and trustworthiness.
+b. Usability
+i. The well-designed user interface, clear navigation flow, and provision of features like progress bars indicate a focus on usability. Usability is crucial for ensuring that users can interact with the app efficiently and effectively.
+c. Reliability
+i. Reliability is closely tied to security, and the app’s attention to data integrity and availability suggest a commitment to ensuring the system functions without critical failures. This is important for users who rely on the app for trading activities.
+
+III. Heuristics Assessment
+a. Heuristic 1: Explain the Benefits of New and Existing Features
+i. The Activate Trading Bot button is meant to assist users with saving time and potentially maximizing profits.
+b. Heuristic 2:
+i. The disclaimer about potential losses associated with automated trading explains the costs.
+c. Heuristic 3:
+i. The toggle button for view additional details ensures users that they can gather as much information as they want.
+d. Heuristic 4:
+i. Utilizing a candlestick structure is a familiar feature in trading platforms.
+e. Heuristic 5:
+i. Users can undo a trade, providing a way to backtrack or correct decisions.
+f. Heuristic 6:
+i. There is a clear user flow with a progress bar for making an order, guiding users through the process.
+g. Heuristic 7:
+i. Users use paper money in a simulated trading environment to test different strategies without financial risk.
+h. Heuristic 8:
+i. While not explicitly mentioned, the mindful tinkering is enhanced when users are prompted to input required data and also users have the ability to display charts and graphs depending on their choice.

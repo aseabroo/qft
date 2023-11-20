@@ -10,11 +10,12 @@
 
 <!-- Main content block -->
 {% block content %}
-
+<!-- JavaScript for form steps and progress bar -->
+<body>
 <!-- About Us Section with trading-specific content -->
 <section class="about-us">
-    <h2>About Us</h2>
-    <p>Insert your trading-specific content here.</p>
+    <h2>Trading</h2>
+    <p>Check out and interact with a paper trading account.</p>
 </section>
 
 <!-- Container for account information with centered alignment -->
@@ -39,50 +40,80 @@
         </ul>
     {% endif %}
 {% endwith %}
+<!--Heuristic 1-->
+<button title="Activate the bot to automate trades based on selected strategies, saving you time and potentially maximizing profits.">Activate Trading Bot</button>
+<!---Heuristic 2-->
+<p>Automated trading can result in losses. Use with caution and knowledge.</p>
 
 
 <!-- Form to create an order -->
 <section class="order-form">
     <h2>Create an Order</h2>
+    <!-- Progress Bar -->
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+
     <form method="POST" action="/trading">
-        <label for="symbol">Symbol:</label>
-        <input type="text" id="symbol" name="symbol" required>
-        <br>
+        <!-- Step 1: Symbol & Quantity -->
+        <div class="step">
+            <label for="symbol">Symbol:</label>
+            <input type="text" id="symbol" name="symbol" required>
+            <br>
 
-        <label for="qty">Quantity:</label>
-        <input type="number" id="qty" name="qty" required>
-        <br>
+            <label for="qty">Quantity:</label>
+            <input type="number" id="qty" name="qty" required>
+            <br>
+        </div>
 
-        <label for="side">Side:</label>
-        <select id="side" name="side" required>
-            <option value="buy">Buy</option>
-            <option value="sell">Sell</option>
-        </select>
-        <br>
+        <!-- Step 2: Order Side & Type -->
+        <div class="step">
+            <label for="side">Side:</label>
+            <select id="side" name="side" required>
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
+            </select>
+            <br>
 
-        <label for="type">Order Type:</label>
-        <select id="type" name="type" required>
-            <option value="market">Market</option>
-            <option value="limit">Limit</option>
-            <option value="stop">Stop</option>
-            <option value="stop_limit">Stop Limit</option>
-            <option value="trailing_stop">Trailing Stop</option>
-        </select>
-        <br>
+            <label for="type">Order Type:</label>
+            <select id="type" name="type" required>
+                <option value="market">Market</option>
+                <option value="limit">Limit</option>
+                <!-- ... other options ... -->
+            </select>
+            <br>
+        </div>
 
-        <label for="time_in_force">Time In Force:</label>
-        <select id="time_in_force" name="time_in_force" required>
-            <option value="day">Day</option>
-            <option value="gtc">Good 'Til Canceled</option>
-            <!-- Add other time in force options as needed -->
-        </select>
-        <br>
+        <!-- Step 3: Time In Force & Other Parameters -->
+        <div class="step">
+            <label for="time_in_force">Time In Force:</label>
+            <select id="time_in_force" name="time_in_force" required>
+                <option value="day">Day</option>
+                <option value="gtc">Good 'Til Canceled</option>
+                <!-- ... other options ... -->
+            </select>
+            <br>
+            <!-- ... other parameters ... -->
+        </div>
 
-        <!-- Add other order parameters here (notional, limit_price, stop_price, etc.) -->
-
-        <button type="submit_c">Submit Order</button>
+        <!-- Navigation Buttons -->
+        <button type="button" onclick="movePrev(currentStep, steps)">Previous</button>
+        <button type="button" onclick="moveNext(currentStep, steps)">Next</button>
+        <button type="submit" id="submitBtn" style="display:none;">Submit Order</button>
     </form>
 </section>
+<!-- Other HTML content above -->
+
+
+
+<!--Heuristic 5-->
+<button onclick="cancelOrder()">Undo Last Trade</button>
+<script>
+    function cancelOrder() {
+        // Send a request to the server to cancel the last order
+        window.location.href = '/cancel_order';
+    }
+</script>
 
 <!-- Create a div for the Plotly graph -->
 <div id="portfolio-graph"></div>
@@ -158,8 +189,25 @@
     });
 </script>
 
+<!-- Heuristic 3 -->
+<div class="center-container">
+<button class="view-details-button" onclick="toggleDetails()">View Table Data Details</button>
+</div>
+<script>
+    // JavaScript for toggling detailed data
+    function toggleDetails() {
+        var details = document.getElementById("details");
+
+        if (details.style.display === "none" || details.style.display === "") {
+            details.style.display = "block"; // Show portfolio data
+        } else {
+            details.style.display = "none"; // Hide portfolio data
+        }
+    }
+</script>
+
 <!-- Display portfolio data in a table -->
-<section class="portfolio">
+<section class="portfolio" id="details" style="display:none;">
     <h2>Portfolio Data</h2>
     <table>
         <thead>
@@ -182,7 +230,7 @@
         </tbody>
     </table>
 </section>
- 
+
 
 
 <section class="trading-parameters">
@@ -204,5 +252,76 @@
     </form>
 </section>
 
+<!-- JavaScript for form steps and progress bar -->
+<script>
+ var currentStep = 0;
+var steps;
+var symbolInput;
+var qtyInput;
+
+document.addEventListener('DOMContentLoaded', function() { 
+    steps = document.getElementsByClassName("step"); 
+    symbolInput = document.getElementById("symbol");
+    qtyInput = document.getElementById("qty");
+    showStep(currentStep);
+
+    // Add event listeners to symbol and quantity inputs
+    symbolInput.addEventListener('input', checkInputs);
+    qtyInput.addEventListener('input', checkInputs);
+});
+
+function showStep(n) {
+    console.log("showing step: ", n);
+    // Hide all steps
+    for (var i = 0; i < steps.length; i++) {
+        steps[i].style.display = "none";
+    }
+    // Show the current step
+    steps[n].style.display = "block";
+    if (n == 0) {
+        document.getElementById("submitBtn").style.display = "none";
+    } else if (n == steps.length - 1) {
+        document.getElementById("submitBtn").style.display = "block";
+    } else {
+        document.getElementById("submitBtn").style.display = "none";
+    }
+}
+
+function moveNext() {
+    if (currentStep < steps.length - 1) {
+        steps[currentStep].style.display = "none";
+        currentStep++;
+        showStep(currentStep); // Pass currentStep as a parameter
+        setProgressBar(currentStep); // Update the progress bar
+    }
+}
+
+function movePrev() {
+    if (currentStep > 0) {
+        steps[currentStep].style.display = "none";
+        currentStep--;
+        showStep(currentStep); // Pass currentStep as a parameter
+        setProgressBar(currentStep); // Update the progress bar
+    }
+}
+
+function setProgressBar(curStep) {
+    var progressBar = document.getElementById("progressBar");
+    var width = (100 / steps.length) * (curStep + 1);
+    progressBar.style.width = width + "%";
+}
+
+function checkInputs() {
+    // Check if both symbol and quantity inputs have values
+    var symbolValue = symbolInput.value.trim();
+    var qtyValue = qtyInput.value.trim();
+    
+    if (symbolValue !== "" && qtyValue !== "") {
+        // Both inputs have values, update the progress bar
+        setProgressBar(currentStep);
+    }
+}
+
+</script></body>
 {% endblock %}
 </html>
