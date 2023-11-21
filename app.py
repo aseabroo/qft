@@ -1,13 +1,19 @@
-from flask import Flask, flash, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect, url_for, jsonify
 import requests
 import json
 import time
-from webapp.data_fetch import get_json_data
-from webapp.plot_stock_data import create_interactive_candlestick_with_timezone
-from webapp.url_builder import build_daily_url
-import webapp.alpaca_trading as alpaca_trading
-from webapp.cancel_order import delete_most_recent_order
+from data_fetch import get_json_data
+from plot_stock_data import create_interactive_candlestick_with_timezone
+from url_builder import build_daily_url
+import alpaca_trading as alpaca_trading
+from cancel_order import delete_most_recent_order
+
+
 app = Flask(__name__)
+
+# Define the URL of the check_alerts route and the check interval
+check_alerts_url = 'http://127.0.0.1:5000/check_alerts'
+check_interval = 300  # 5 minutes
 
 # API key for stock data
 API_KEY = '5CZCCX7WZESVENBF'
@@ -18,6 +24,8 @@ symbol = 'IBM'
 
 # Secret key for Flask application
 app.secret_key = 'password'
+
+
 
 # Route for the home page
 @app.route('/', methods=['GET', 'POST'])
@@ -82,6 +90,7 @@ def cancel_order():
     flash("Order cancelled Successfully")
     # Redirect back to the trading page or handle the response appropriately
     return redirect(url_for('trading'))
+
 
 # Main entry point for the application
 if __name__ == '__main__':

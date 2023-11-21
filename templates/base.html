@@ -10,6 +10,30 @@
 
     <!-- Internal CSS for styling -->
     <style>
+          /* Style for the scrolling text box */
+        .scrolling-text-box {
+            width: 500px;
+            height: 100px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+
+        /* Style for the scrolling text */
+        .scrolling-text {
+            white-space: nowrap;
+            animation: scrollText 10s linear infinite;
+        }
+
+        /* Keyframes for the scrolling animation */
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+       
         /* Custom color variables for easy theme management */
         :root {
             --navy-blue-light: #5472d3;
@@ -114,7 +138,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 50vh;
+            height: 75vh;
         }
 
         /* Account information box styling */

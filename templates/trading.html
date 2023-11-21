@@ -25,6 +25,37 @@
         <div class="gradient-box">
             <!-- Dynamic display of buying power -->
             <p>Buying Power: ${{ account_data.buying_power }}</p>
+            <p>Portfolio value: {{ account_data.portfolio_value }}</p>
+            
+   <!-- Form for setting an alert -->
+<h2>Set Alert</h2>
+<form id="setAlertForm">
+    <label for="stockName">Stock Name:</label>
+    <input type="text" id="stockName" name="stock_name" required><br>
+
+    <label for="targetPrice">Target Price:</label>
+    <input type="number" id="targetPrice" name="target_price" step="0.01" required><br>
+
+    <button type="button" onclick="setAlert()">Set Alert</button>
+</form>
+
+<!-- Display alert message -->
+<div id="alertMessage" style="display: none;"></div>
+
+<!-- Scrolling text box -->
+<div class="scrolling-text-box">
+    <div class="scrolling-text" id="setAlertText">
+        <!-- SET alerts will be added here using JavaScript -->
+    </div>
+</div>
+
+<!-- Scrolling text box for regular alerts -->
+<div class="scrolling-text-box">
+    <div class="scrolling-text" id="alertText">
+        <!-- Regular alerts will be added here using JavaScript -->
+    </div>
+</div>
+            
             <!-- Additional account information can be added here -->
         </div>
     </section>
@@ -193,6 +224,7 @@
 <div class="center-container">
 <button class="view-details-button" onclick="toggleDetails()">View Table Data Details</button>
 </div>
+
 <script>
     // JavaScript for toggling detailed data
     function toggleDetails() {
@@ -204,6 +236,112 @@
             details.style.display = "none"; // Hide portfolio data
         }
     }
+</script>
+
+<!-- JavaScript function to make the POST request & add alerts & set alerts -->
+<script>
+    // Function to fetch and display alerts
+    function fetchAlerts() {
+        fetch('http://127.0.0.1:5000/check_alerts')
+            .then(response => response.json())
+            .then(alerts => {
+                // Get the fetched alerts text element
+                const fetchedAlertText = document.getElementById('fetchedAlertText');
+
+                // Iterate through the received alerts and add them to the scrolling text box
+                alerts.forEach(alert => {
+                    const alertElement = document.createElement('span');
+                    alertElement.textContent = alert;
+                    fetchedAlertText.appendChild(alertElement);
+                    fetchedAlertText.appendChild(document.createTextNode("  "));
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching alerts:', error);
+            });
+    }
+
+    // Call the fetchAlerts function to initially load alerts
+    fetchAlerts();
+
+    // You can set an interval to periodically fetch and update alerts
+    // For example, fetch alerts every 30 seconds
+    setInterval(fetchAlerts, 30000); // 30,000 milliseconds = 30 seconds
+
+      // Function to add SET alerts to the scrolling text box
+      function addSetAlert(setAlertMessage) {
+            const setAlertText = document.getElementById("setAlertText");
+            const setAlertElement = document.createElement("span");
+            setAlertElement.textContent = setAlertMessage;
+            setAlertText.appendChild(setAlertElement);
+            setAlertText.appendChild(document.createTextNode("  "));
+        }
+
+        // Function to add regular alerts to the scrolling text box
+        function addAlert(alertMessage) {
+            const alertText = document.getElementById("alertText");
+            const alertElement = document.createElement("span");
+            alertElement.textContent = alertMessage;
+            alertText.appendChild(alertElement);
+            alertText.appendChild(document.createTextNode("  "));
+        }
+
+        // Sample SET alerts (you can replace these with your actual SET alerts)
+        const setAlerts = ["SET Alert 1: Stock AAPL set at $150.00", "SET Alert 2: Stock XYZ set at $75.50"];
+
+        // Sample regular alerts (you can replace these with your actual alerts)
+        const alerts = ["Alert 1: Stock AAPL reached $150.00", "Alert 2: Stock XYZ reached $75.50"];
+
+        // Add the sample SET alerts to the scrolling text box
+        for (const setAlert of setAlerts) {
+            addSetAlert(setAlert);
+        }
+
+        // Add the sample regular alerts to the scrolling text box
+        for (const alert of alerts) {
+            addAlert(alert);
+        }
+
+    function setAlert() {
+            // Get the stock name and target price from the form
+    var stockName = document.getElementById("stockName").value;
+    var targetPrice = parseFloat(document.getElementById("targetPrice").value);
+    var newAlertNumber = setAlerts.length + 1;
+    // Create a new SET alert message
+    var newSetAlert = "SET Alert " + newAlertNumber+ ":Stock " + stockName + " set at $" + targetPrice.toFixed(2);
+
+    // Add the new SET alert to the setAlerts array
+    setAlerts.push(newSetAlert);
+
+    // Update the scrolling text box with the new SET alert
+    addSetAlert(newSetAlert);
+
+    // Clear the form inputs
+    document.getElementById("stockName").value = "";
+    document.getElementById("targetPrice").value = "";
+
+    // Make a POST request to your API endpoint (if needed)
+    fetch('http://127.0.0.1:5000/set_alert', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 'stock_name': stockName, 'target_price': targetPrice })
+    })
+    .then(function(response) {
+        if (response.status == 200) {
+            console.log("Alert set successfully!");
+            // You can add any additional actions or feedback here
+        } else {
+            console.log("Failed to set the alert.");
+            // Handle the failure or provide feedback to the user
+        }
+    })
+    .catch(function(error) {
+        console.error("Error:", error);
+        // Handle any network or other errors here
+    });
+        }
 </script>
 
 <!-- Display portfolio data in a table -->
@@ -232,7 +370,6 @@
 </section>
 
 
-
 <section class="trading-parameters">
     <h2>Trading Parameters</h2>
     <form method="POST" action="/trading">
@@ -251,6 +388,7 @@
         <button type="submit_b">Submit</button>
     </form>
 </section>
+
 
 <!-- JavaScript for form steps and progress bar -->
 <script>
