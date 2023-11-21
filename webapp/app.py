@@ -2,11 +2,11 @@ from flask import Flask, flash, render_template, request, redirect, url_for
 import requests
 import json
 import time
-from data_fetch import get_json_data
-from plot_stock_data import create_interactive_candlestick_with_timezone
-from url_builder import build_daily_url
-import alpaca_trading
-from cancel_order import delete_most_recent_order
+from webapp.data_fetch import get_json_data
+from webapp.plot_stock_data import create_interactive_candlestick_with_timezone
+from webapp.url_builder import build_daily_url
+import webapp.alpaca_trading as alpaca_trading
+from webapp.cancel_order import delete_most_recent_order
 app = Flask(__name__)
 
 # API key for stock data

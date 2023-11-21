@@ -1,7 +1,7 @@
 import requests
 import logging
 
-from url_builder import build_daily_url, build_intraday_url
+from webapp.url_builder import build_daily_url, build_intraday_url
 
 def get_json_data(symbol, outputsize, apikey, function_interval, intraday_interval=None):
     """
